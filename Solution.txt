@@ -1,0 +1,50 @@
+//Given that as a method of apartmentHunting and passing parameters here : blocks and reqs
+function  apartmentHunting (blocks, reqs) {
+// check if the reqs are available in every block
+// store the total of result reqs in hashMap;
+const dataMap = new Map(reqs.map((req) => [req, 0]));
+const dataSet = new Set();
+let result = 0;
+const resultLength = reqs.length;
+let t1 = 0;
+let resArray = [];
+let minTime = Infinity;
+blocks.forEach((block, index) => {
+reqs.forEach((req) => {
+if (block[req]) {
+dataMap.set(req, dataMap.get(req) + 1);
+if (!dataSet.has(req)) {
+dataSet.add(req);
+result++;
+}
+}
+})
+//Compare the result and resultLength
+    while (result === resultLength) {
+        let lastBlock = blocks[t1];
+        let dist = index - t1;
+        if (dist < minTime) {
+            minTime = dist;
+            res = [t1, index];
+        }
+        reqs.forEach((req) => {
+            if (lastBlock[req]) {
+                dataMap.set(req, dataMap.get(req) - 1);
+                const total = dataMap.get(req);
+                if (dataSet.has(req) && total < 1) {
+                    dataSet.delete(req);
+                    result--;
+                }
+            }
+        })
+        t1++;
+    }
+})
+    //return the res
+return res[0] > -1 ? Math.floor((res[0]+res[1])/2) : null;
+}
+
+
+// Do not edit the line below.
+exports.apartmentHunting = apartmentHunting;
+
